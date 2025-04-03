@@ -1,5 +1,8 @@
 package hibernate.curso.modelo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -11,6 +14,10 @@ public class Empresa {
 
     private String nombre;
     private String cuit;
+    
+    @OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Producto> productos = new ArrayList<>();
+
 
     public Empresa() {}
 
@@ -41,6 +48,14 @@ public class Empresa {
 
 	public void setCuit(String cuit) {
 		this.cuit = cuit;
+	}
+
+	public List<Producto> getProductos() {
+		return productos;
+	}
+
+	public void setProductos(List<Producto> productos) {
+		this.productos = productos;
 	}
 
     

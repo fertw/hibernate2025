@@ -1,11 +1,11 @@
 package hibernate.curso.servicio;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import hibernate.curso.modelo.Empresa;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 
 @Service
 public class EmpresaService {
@@ -18,4 +18,12 @@ public class EmpresaService {
         Empresa empresa = new Empresa(nombre, cuit);
         em.persist(empresa);
     }
+
+    
+    @Transactional
+	public void guardar(Empresa empresa) {
+    	em.persist(empresa);		
+	}
+    
+   
 }
