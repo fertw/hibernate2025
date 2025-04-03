@@ -18,7 +18,11 @@ public class EmpresaService {
         Empresa empresa = new Empresa(nombre, cuit);
         em.persist(empresa);
     }
-
+ 
+    
+    public Empresa buscarPorId(Long id) {
+		return em.find(Empresa.class, id);
+	}
     
     @Transactional
 	public void guardar(Empresa empresa) {
