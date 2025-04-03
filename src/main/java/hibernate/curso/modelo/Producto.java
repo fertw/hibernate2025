@@ -16,6 +16,11 @@ public class Producto {
     @ManyToOne
     @JoinColumn(name = "empresa_id")
     private Empresa empresa;
+    
+ // El cascade PERSIST asegura que si la categoría no existe en la base de datos,
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "categoria_id")
+    private Categoria categoria;
 
     // Getters y Setters
     public Long getId() { return id; }
@@ -29,4 +34,7 @@ public class Producto {
 
     public Empresa getEmpresa() { return empresa; }
     public void setEmpresa(Empresa empresa) { this.empresa = empresa; }
+    
+    public Categoria getCategoria() { return categoria; }
+    public void setCategoria(Categoria categoria) { this.categoria = categoria; }
 }

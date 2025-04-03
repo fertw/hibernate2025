@@ -17,6 +17,9 @@ public class Empresa {
     
     @OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Producto> productos = new ArrayList<>();
+    
+    @OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Sucursal> sucursales = new ArrayList<>();
 
 
     public Empresa() {}
@@ -56,6 +59,13 @@ public class Empresa {
 
 	public void setProductos(List<Producto> productos) {
 		this.productos = productos;
+	}
+	
+	public List<Sucursal> getSucursales() {
+		return sucursales;
+	}	
+	public void setSucursales(List<Sucursal> sucursales) {
+		this.sucursales = sucursales;
 	}
 
     
