@@ -1,16 +1,11 @@
 package hibernate.curso;
 
-import hibernate.curso.modelo.Categoria;
-import hibernate.curso.modelo.Empleado;
-import hibernate.curso.modelo.Empresa;
-import hibernate.curso.modelo.Producto;
-import hibernate.curso.modelo.Sucursal;
-import hibernate.curso.servicio.EmpresaService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 
-import java.util.Arrays;
+import hibernate.curso.modelo.Empresa;
+import hibernate.curso.servicio.EmpresaService;
 
 @SpringBootApplication
 public class DemoApplication {
@@ -18,9 +13,13 @@ public class DemoApplication {
 	public static void main(String[] args) {
 		ApplicationContext context = SpringApplication.run(DemoApplication.class, args);
 
-		Empresa empresa = new Empresa();
-		empresa.setNombre("Tech Corp");
-		empresa.setCuit("123456789");
+		EmpresaService empresaService = context.getBean(EmpresaService.class);
+
+		Empresa nuevaEmpresa = new Empresa();
+		nuevaEmpresa.setNombre("Tech PatagoniaXXXX");
+		empresaService.guardar(nuevaEmpresa);
+
+		System.out.println("Empresa guardada con éxito.");
 //		
 //		Categoria categoria1 = new Categoria("Electronics");
 //		Categoria categoria2 = new Categoria("Mobile Devices");
@@ -59,8 +58,5 @@ public class DemoApplication {
 //
 //		empresa.setProductos(Arrays.asList(p1, p2));
 
-		EmpresaService empresaService = context.getBean(EmpresaService.class);
-		empresaService.guardar(empresa);		
-		
 	}
 }
