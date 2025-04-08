@@ -1,62 +1,37 @@
-# Hibernate con Spring Boot - Clase 3
+# 📚 Clase 4 – Introducción a Spring Data JPA
 
-Este proyecto es parte del curso de Hibernate + Spring Boot, y en esta tercera clase se profundiza el uso de **JPA**, **relaciones entre entidades** y el manejo del ciclo de vida de los objetos.
-
-## 🏗️ Contenido visto en la Clase 3
-
-- Uso de `EntityManager` desde un servicio.
-- Relaciones entre entidades con JPA:
-  - `@OneToMany` y `@ManyToOne`
-  - `CascadeType.ALL`
-  - `mappedBy`
-- Cómo guardar una entidad con relaciones asociadas correctamente.
-- Manejo del error `TransientPropertyValueException` y cómo solucionarlo.
-- Creación de nuevos branches con Git (`clase-3`).
-- Uso del patrón de servicios (`EmpresaService`) para persistencia.
+En esta clase incorporamos **Spring Data JPA** al proyecto para simplificar el acceso a la base de datos mediante la creación de interfaces `Repository`. Dejamos de usar el `EntityManager` directamente y comenzamos a aprovechar la potencia de Spring.
 
 ---
 
-## 🧱 Modelo de Entidades
+## ✅ Objetivos de la Clase
 
-### Empresa
+- Integrar Spring Data JPA en un proyecto Spring Boot.
+- Crear `Repository` para nuestras entidades.
+- Utilizar métodos automáticos para persistir y consultar datos.
+- Explorar formas de definir consultas personalizadas.
+
+---
+
+## 🧱 Entidades trabajadas
+
+- `Empresa`
+- `Producto`
+- `Empleado`
+- `Categoria`
+- `Sucursal`
+
+---
+
+## 🔌 Repositorios implementados
+
+Se crearon interfaces que extienden `JpaRepository`, por ejemplo:
 
 ```java
-@Entity
-public class Empresa {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String nombre;
-    private String cuit;
-
-    @OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL)
-    private List<Producto> productos = new ArrayList<>();
+public interface EmpresaRepository extends JpaRepository<Empresa, Long> {
+    List<Empresa> findByNombre(String nombre);
+    
 }
-
-@Entity
-public class Producto {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String nombre;
-    private Double precio;
-
-    @ManyToOne
-    private Empresa empresa;
-
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    private Categoria categoria;
-}
-
-@Entity
-public class Categoria {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String nombre;
-}
-
-
+empresaRepository.save(empresa);
+empresaRepository.findById(1L);
+empresaRepository.findAll();

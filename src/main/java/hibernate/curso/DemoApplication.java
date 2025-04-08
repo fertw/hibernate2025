@@ -18,9 +18,9 @@ public class DemoApplication {
 	public static void main(String[] args) {
 		ApplicationContext context = SpringApplication.run(DemoApplication.class, args);
 
-//		Empresa empresa = new Empresa();
-//		empresa.setNombre("Tech Corp");
-//		empresa.setCuit("123456789");
+		Empresa empresa = new Empresa();
+		empresa.setNombre("Tech Corp");
+		empresa.setCuit("123456789");
 //		
 //		Categoria categoria1 = new Categoria("Electronics");
 //		Categoria categoria2 = new Categoria("Mobile Devices");
@@ -60,9 +60,7 @@ public class DemoApplication {
 //		empresa.setProductos(Arrays.asList(p1, p2));
 
 		EmpresaService empresaService = context.getBean(EmpresaService.class);
-		//empresaService.guardar(empresa);
+		empresaService.guardar(empresa);		
 		
-		Empresa empresaa1 = empresaService.buscarPorId(1L);
-		System.out.println("Empresa: " + empresaa1.getNombre());
 	}
 }
