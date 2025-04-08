@@ -4,7 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 
+import hibernate.curso.modelo.Categoria;
 import hibernate.curso.modelo.Empresa;
+import hibernate.curso.servicio.CategoriaService;
 import hibernate.curso.servicio.EmpresaService;
 
 @SpringBootApplication
@@ -14,15 +16,19 @@ public class DemoApplication {
 		ApplicationContext context = SpringApplication.run(DemoApplication.class, args);
 
 		EmpresaService empresaService = context.getBean(EmpresaService.class);
-
+		CategoriaService categoriaService = context.getBean(CategoriaService.class);
+		
 		Empresa nuevaEmpresa = new Empresa();
 		nuevaEmpresa.setNombre("Tech PatagoniaXXXX");
 		empresaService.guardar(nuevaEmpresa);
 
 		System.out.println("Empresa guardada con éxito.");
-//		
-//		Categoria categoria1 = new Categoria("Electronics");
-//		Categoria categoria2 = new Categoria("Mobile Devices");
+		
+		Categoria categoria1 = new Categoria("Electronics");
+		Categoria categoria2 = new Categoria("Mobile Devices");
+		
+		categoriaService.guardar(categoria1);
+		categoriaService.guardar(categoria2);
 //		
 //		// crear sucursales
 //		Sucursal sucursal1 = new Sucursal("Sucursal 1", "Dirección 1", "Teléfono 1");
