@@ -6,7 +6,14 @@ import org.springframework.context.ApplicationContext;
 
 import hibernate.curso.modelo.Categoria;
 import hibernate.curso.modelo.Empresa;
+import hibernate.curso.modelo.herencia.joined.EmpleadoContratadoB;
+import hibernate.curso.modelo.herencia.joined.EmpleadoPlantaB;
+import hibernate.curso.modelo.herencia.singletable.EmpleadoContratadoA;
+import hibernate.curso.modelo.herencia.singletable.EmpleadoPlantaA;
+import hibernate.curso.modelo.herencia.tableperclass.EmpleadoContratadoC;
+import hibernate.curso.modelo.herencia.tableperclass.EmpleadoPlantaC;
 import hibernate.curso.servicio.CategoriaService;
+import hibernate.curso.servicio.EmpleadoService;
 import hibernate.curso.servicio.EmpresaService;
 
 @SpringBootApplication
@@ -17,18 +24,19 @@ public class DemoApplication {
 
 		EmpresaService empresaService = context.getBean(EmpresaService.class);
 		CategoriaService categoriaService = context.getBean(CategoriaService.class);
+		EmpleadoService empleadoService = context.getBean(EmpleadoService.class);
 		
-		Empresa nuevaEmpresa = new Empresa();
-		nuevaEmpresa.setNombre("Tech PatagoniaXXXX");
-		empresaService.guardar(nuevaEmpresa);
-
-		System.out.println("Empresa guardada con éxito.");
-		
-		Categoria categoria1 = new Categoria("Electronics");
-		Categoria categoria2 = new Categoria("Mobile Devices");
-		
-		categoriaService.guardar(categoria1);
-		categoriaService.guardar(categoria2);
+//		Empresa nuevaEmpresa = new Empresa();
+//		nuevaEmpresa.setNombre("Tech PatagoniaXXXX");
+//		empresaService.guardar(nuevaEmpresa);
+//
+//		System.out.println("Empresa guardada con éxito.");
+//		
+//		Categoria categoria1 = new Categoria("Electronics");
+//		Categoria categoria2 = new Categoria("Mobile Devices");
+//		
+//		categoriaService.guardar(categoria1);
+//		categoriaService.guardar(categoria2);
 //		
 //		// crear sucursales
 //		Sucursal sucursal1 = new Sucursal("Sucursal 1", "Dirección 1", "Teléfono 1");
@@ -63,6 +71,66 @@ public class DemoApplication {
 //		empresa.setEmpleados(Arrays.asList(e1, e2));		
 //
 //		empresa.setProductos(Arrays.asList(p1, p2));
-
+		
+		// crear empleados contratatados y de planta
+		EmpleadoContratadoA empleadoContratado = new EmpleadoContratadoA();
+		empleadoContratado.setNombre("Pedro");
+		empleadoContratado.setMontoPorHora(20.0);
+		empleadoContratado.setHorasTrabajadas(40);
+		
+		
+		EmpleadoContratadoA empleadoContratado2 = new EmpleadoContratadoA();
+		empleadoContratado2.setNombre("María");
+		empleadoContratado2.setMontoPorHora(25.0);
+		empleadoContratado2.setHorasTrabajadas(30);
+		
+		EmpleadoPlantaA empleadoPlanta = new EmpleadoPlantaA();
+		empleadoPlanta.setNombre("Luis");
+		empleadoPlanta.setSueldoMensual(3000.0);
+		
+		empleadoService.guardarEmpleadoContratado(empleadoContratado);
+		empleadoService.guardarEmpleadoContratado(empleadoContratado2);
+		empleadoService.guardarEmpleadoPlanta(empleadoPlanta);
+		
+		// crear empleados contratatados y de planta B
+		
+		
+		EmpleadoContratadoB empleadoContratadoB = new EmpleadoContratadoB();
+		empleadoContratadoB.setNombre("Pedro");
+		empleadoContratadoB.setMontoPorHora(20.0);
+		empleadoContratadoB.setHorasTrabajadas(40);
+		
+		EmpleadoContratadoB empleadoContratadoB2 = new EmpleadoContratadoB();
+		empleadoContratadoB2.setNombre("María");
+		empleadoContratadoB2.setMontoPorHora(25.0);
+		empleadoContratadoB2.setHorasTrabajadas(30);
+		
+		EmpleadoPlantaB empleadoPlantaB = new EmpleadoPlantaB();
+		empleadoPlantaB.setNombre("Luis");
+		empleadoPlantaB.setSueldoMensual(3000.0);
+		
+		empleadoService.guardarEmpleadoBContratado(empleadoContratadoB);
+		empleadoService.guardarEmpleadoBContratado(empleadoContratadoB2);
+		empleadoService.guardarEmpleadoBPlanta(empleadoPlantaB);
+		
+		// crear empleados contratatados y de planta C
+		
+		EmpleadoContratadoC empleadoContratadoC = new EmpleadoContratadoC();
+		empleadoContratadoC.setNombre("Pedro");
+		empleadoContratadoC.setSueldoPorHora(20.0);
+		empleadoContratadoC.setHorasTrabajadas(40);
+		EmpleadoContratadoC empleadoContratadoC2 = new EmpleadoContratadoC();
+		empleadoContratadoC2.setNombre("María");
+		empleadoContratadoC2.setSueldoPorHora(25.0);
+		empleadoContratadoC2.setHorasTrabajadas(30);
+		EmpleadoPlantaC empleadoPlantaC = new EmpleadoPlantaC();
+		empleadoPlantaC.setNombre("Luis");
+		empleadoPlantaC.setSueldoMensual(3000.0);
+		
+		
+		empleadoService.guardarEmpleadoCContratado(empleadoContratadoC);
+		empleadoService.guardarEmpleadoCContratado(empleadoContratadoC2);
+		empleadoService.guardarEmpleadoCPlanta(empleadoPlantaC);
+		
 	}
 }
