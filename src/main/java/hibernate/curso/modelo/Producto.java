@@ -1,40 +1,93 @@
 package hibernate.curso.modelo;
 
+import org.hibernate.validator.constraints.NotBlank;
+
+import hibernate.curso.validators.CodigoUnico;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Producto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    private String nombre;
+	@Size(min = 3, max = 50, message = "El nombre debe tener entre 3 y 50 caracteres")
+	private String nombre;
 
-    private Double precio;
+	private Double precio;
 
-    @ManyToOne
-    @JoinColumn(name = "empresa_id")
-    private Empresa empresa;
-    
- // El cascade PERSIST asegura que si la categoría no existe en la base de datos,
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "categoria_id")
-    private Categoria categoria;
+	@CodigoUnico
+	private String codigo;
 
-    // Getters y Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+	@Min(value = 0, message = "El stock no puede ser negativo")
+	private Integer stock;
 
-    public String getNombre() { return nombre; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
+	@ManyToOne
+	@JoinColumn(name = "empresa_id")
+	private Empresa empresa;
 
-    public Double getPrecio() { return precio; }
-    public void setPrecio(Double precio) { this.precio = precio; }
+	// El cascade PERSIST asegura que si la categoría no existe en la base de datos,
+	@ManyToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "categoria_id")
+	private Categoria categoria;
 
-    public Empresa getEmpresa() { return empresa; }
-    public void setEmpresa(Empresa empresa) { this.empresa = empresa; }
-    
-    public Categoria getCategoria() { return categoria; }
-    public void setCategoria(Categoria categoria) { this.categoria = categoria; }
+	// Getters y Setters
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public Double getPrecio() {
+		return precio;
+	}
+
+	public void setPrecio(Double precio) {
+		this.precio = precio;
+	}
+
+	public Empresa getEmpresa() {
+		return empresa;
+	}
+
+	public void setEmpresa(Empresa empresa) {
+		this.empresa = empresa;
+	}
+
+	public Categoria getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}
+
+	public Integer getStock() {
+		return stock;
+	}
+
+	public void setStock(Integer stock) {
+		this.stock = stock;
+	}
+
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
+	}
 }

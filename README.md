@@ -1,93 +1,46 @@
-# 🧜‍♂️ Clase 5 – Mapeo de Herencia en JPA
+# 📘 Clase 6 – Validaciones en Spring Boot con Hibernate Validator
 
-En esta clase se implementaron y compararon las tres estrategias principales de mapeo de herencia en JPA/Hibernate, cada una organizada en su propio paquete y con ejemplos de uso.
+## ✅ Temas vistos
 
----
-
-## 🎯 Objetivo
-
-- Entender cómo funciona la herencia en JPA.
-- Aplicar los distintos tipos de mapeo.
-- Ver cómo se reflejan en la base de datos.
-- Probar consultas polimórficas.
-
----
-
-## 📁 Estructura del Proyecto
-
-### 1. `SINGLE_TABLE`
-
-📆 Paquete: `hibernate.curso.modelo.herencia.singletable`
-
-```java
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "tipo_empleado")
-```
-
-Clases:
-- `EmpleadoA` (abstracta)
-- `EmpleadoPlantaA`
-- `EmpleadoContratadoA`
-
-📌 Se usa una sola tabla con una columna discriminadora.
+- Introducción a Hibernate Validator (implementación de Bean Validation – JSR 380)
+- Anotaciones de validación estándar:
+  - `@NotNull`, `@Size`, `@Min`, `@Max`, `@Positive`, `@NotBlank`
+- Aplicación de validaciones sobre entidades como `Producto`
+- Validación de relaciones (`@NotNull` en campos `@ManyToOne`)
+- Validación manual con `Validator.validate(obj)`
+- Creación de validaciones personalizadas:
+  - Definición de anotación (`@CodigoUnico`)
+  - Implementación con `ConstraintValidator`
+  - Inyección de dependencias (`ProductoRepository`) dentro del validador
+- Errores comunes:
+  - `NullPointerException` en validadores por falta de configuración
+  - Necesidad del bean `LocalValidatorFactoryBean` para integración con Spring
+- Pruebas desde el método `main()` sin usar controlador
 
 ---
 
-### 2. `JOINED`
+## 📝 Tarea para la próxima clase
 
-📆 Paquete: `hibernate.curso.modelo.herencia.joined`
+### 🎯 Objetivo:
+Completar las **validaciones en todas las entidades del proyecto**.
 
-```java
-@Inheritance(strategy = InheritanceType.JOINED)
-```
+### 📌 Instrucciones:
 
-Clases:
-- `EmpleadoB` (abstracta)
-- `EmpleadoPlantaB`
-- `EmpleadoContratadoB`
+1. Agregar anotaciones de validación estándar en:
+   - `Empresa` (ej: nombre obligatorio, CUIT único)
+   - `Empleado` (nombre, apellido, sueldo)
+   - `Sucursal` (nombre, dirección, teléfono)
+   - `Categoria` (nombre)
 
-📌 Cada clase concreta tiene su tabla; se realiza un JOIN en las consultas.
+2. Verificar relaciones con `@NotNull` (ej: cada `Empleado` debe tener una `Empresa`).
 
----
+3. Aplicar mensajes personalizados para cada validación.
 
-### 3. `TABLE_PER_CLASS`
+4. (Opcional) Crear una validación personalizada adicional, por ejemplo:
+   - `@CuitUnico` para validar que no existan dos empresas con el mismo CUIT.
 
-📆 Paquete: `hibernate.curso.modelo.herencia.tableperclass`
-
-```java
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-```
-
-Clases:
-- `EmpleadoC` (abstracta)
-- `EmpleadoPlantaC`
-- `EmpleadoContratadoC`
-
-📌 Cada clase concreta tiene su propia tabla. No se permiten `GenerationType.IDENTITY`, se usa `AUTO`.
+5. Probar todas las validaciones desde el `main()` del proyecto, mostrando errores si existen.
 
 ---
 
-## 📊 Pruebas realizadas
-
-Desde `DemoApplication` se crearon y guardaron instancias de cada jerarquía utilizando `EntityManager`:
-
-```java
-EmpleadoPlantaA empleadoA = new EmpleadoPlantaA("Juan", 500000.0);
-EmpleadoContratadoB empleadoB = new EmpleadoContratadoB("Lucía", 4000.0, 100);
-EmpleadoPlantaC empleadoC = new EmpleadoPlantaC("María", 700000.0);
-```
-
----
-
-## 💡 Consideraciones
-
-- Se agregaron constructores personalizados para facilitar la instanciación.
-- Se observó cómo varía la estructura de las tablas en cada estrategia.
-- Se evitó `GenerationType.IDENTITY` en `TABLE_PER_CLASS`.
-
----
-
-## 📆 Branch utilizado
-
-> Todos estos cambios se encuentran en la rama `clase-5` del repositorio:  
-> [https://github.com/fertw/hibernate2025/tree/clase-5](https://github.com/fertw/hibernate2025/tree/clase-5)
+📆 **Mostrar funcionando al inicio de la próxima clase.**

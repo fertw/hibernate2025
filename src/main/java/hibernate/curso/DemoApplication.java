@@ -1,11 +1,15 @@
 package hibernate.curso;
 
+import java.util.Set;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
 
 import hibernate.curso.modelo.Categoria;
 import hibernate.curso.modelo.Empresa;
+import hibernate.curso.modelo.Producto;
 import hibernate.curso.modelo.herencia.joined.EmpleadoContratadoB;
 import hibernate.curso.modelo.herencia.joined.EmpleadoPlantaB;
 import hibernate.curso.modelo.herencia.singletable.EmpleadoContratadoA;
@@ -15,6 +19,10 @@ import hibernate.curso.modelo.herencia.tableperclass.EmpleadoPlantaC;
 import hibernate.curso.servicio.CategoriaService;
 import hibernate.curso.servicio.EmpleadoService;
 import hibernate.curso.servicio.EmpresaService;
+import hibernate.curso.servicio.ProductoService;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validator;
+
 
 @SpringBootApplication
 public class DemoApplication {
@@ -25,14 +33,19 @@ public class DemoApplication {
 		EmpresaService empresaService = context.getBean(EmpresaService.class);
 		CategoriaService categoriaService = context.getBean(CategoriaService.class);
 		EmpleadoService empleadoService = context.getBean(EmpleadoService.class);
+		ProductoService productoService = context.getBean(ProductoService.class);
 		
-//		Empresa nuevaEmpresa = new Empresa();
-//		nuevaEmpresa.setNombre("Tech PatagoniaXXXX");
-//		empresaService.guardar(nuevaEmpresa);
+		Validator validator = context.getBean(Validator.class);
+		
+		
+		
+		Empresa nuevaEmpresa = new Empresa();
+		nuevaEmpresa.setNombre("Tech Patagonia11XXXX");
+		empresaService.guardar(nuevaEmpresa);
 //
 //		System.out.println("Empresa guardada con éxito.");
 //		
-//		Categoria categoria1 = new Categoria("Electronics");
+		Categoria categoria1 = new Categoria("Electronics");
 //		Categoria categoria2 = new Categoria("Mobile Devices");
 //		
 //		categoriaService.guardar(categoria1);
@@ -46,17 +59,34 @@ public class DemoApplication {
 //		
 //		empresa.setSucursales(Arrays.asList(sucursal1, sucursal2));
 //
-//		Producto p1 = new Producto();
-//		p1.setNombre("Laptop");
-//		p1.setPrecio(1500.0);
-//		p1.setEmpresa(empresa);
-//		p1.setCategoria(categoria2);
+		Producto p1 = new Producto();
+		p1.setNombre("Monitor Samsung 2");
+		p1.setPrecio(1500.0);
+		p1.setStock(10);
+		p1.setCodigo("MON-SAM-008");
+		p1.setEmpresa(nuevaEmpresa);
+		p1.setCategoria(categoria1);
+		Set<ConstraintViolation<Producto>> errores = validator.validate(p1);
+		
+		if (errores.isEmpty()) {
+			productoService.guardar(p1);
+			System.out.println("Producto guardado con éxito.");
+		} else {
+			for (ConstraintViolation<Producto> error : errores) {
+				System.out.println(error.getMessage());
+			}
+		}
+		
+		
 //
 //		Producto p2 = new Producto();
 //		p2.setNombre("Smartphone");
 //		p2.setPrecio(800.0);
-//		p2.setEmpresa(empresa);
+//		p1.setCodigo("MON-SAM-001");
+//		p2.setEmpresa(nuevaEmpresa);
 //		p2.setCategoria(categoria1);
+//		productoService.guardar(p2);
+
 //		
 //		Empleado e1 = new Empleado();
 //		e1.setNombre("Juan");
@@ -132,5 +162,11 @@ public class DemoApplication {
 		empleadoService.guardarEmpleadoCContratado(empleadoContratadoC2);
 		empleadoService.guardarEmpleadoCPlanta(empleadoPlantaC);
 		
+	}
+	
+	
+	@Bean
+	public Validator localValidatorFactoryBean() {
+	    return new org.springframework.validation.beanvalidation.LocalValidatorFactoryBean();
 	}
 }
