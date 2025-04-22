@@ -1,46 +1,30 @@
-# 📘 Clase 6 – Validaciones en Spring Boot con Hibernate Validator
+# 📘 Clase 7 – DTOs y ModelMapper en Spring Boot
 
-## ✅ Temas vistos
+## ✅ Contenidos abordados
 
-- Introducción a Hibernate Validator (implementación de Bean Validation – JSR 380)
-- Anotaciones de validación estándar:
-  - `@NotNull`, `@Size`, `@Min`, `@Max`, `@Positive`, `@NotBlank`
-- Aplicación de validaciones sobre entidades como `Producto`
-- Validación de relaciones (`@NotNull` en campos `@ManyToOne`)
-- Validación manual con `Validator.validate(obj)`
-- Creación de validaciones personalizadas:
-  - Definición de anotación (`@CodigoUnico`)
-  - Implementación con `ConstraintValidator`
-  - Inyección de dependencias (`ProductoRepository`) dentro del validador
-- Errores comunes:
-  - `NullPointerException` en validadores por falta de configuración
-  - Necesidad del bean `LocalValidatorFactoryBean` para integración con Spring
-- Pruebas desde el método `main()` sin usar controlador
+### 🎯 Objetivo de la clase:
+- Aplicar el uso de DTOs (Data Transfer Objects) para estructurar mejor los datos de salida.
+- Utilizar **ModelMapper** como herramienta automática de mapeo entre entidades y DTOs.
+- Separar la lógica de negocio de la estructura de persistencia.
 
 ---
 
-## 📝 Tarea para la próxima clase
+## 🧩 Temas trabajados
 
-### 🎯 Objetivo:
-Completar las **validaciones en todas las entidades del proyecto**.
+### 🧱 ¿Qué es un DTO?
+- Objeto de transferencia de datos.
+- Se utiliza para exponer datos estructurados desde las entidades sin exponer directamente la base de datos.
 
-### 📌 Instrucciones:
-
-1. Agregar anotaciones de validación estándar en:
-   - `Empresa` (ej: nombre obligatorio, CUIT único)
-   - `Empleado` (nombre, apellido, sueldo)
-   - `Sucursal` (nombre, dirección, teléfono)
-   - `Categoria` (nombre)
-
-2. Verificar relaciones con `@NotNull` (ej: cada `Empleado` debe tener una `Empresa`).
-
-3. Aplicar mensajes personalizados para cada validación.
-
-4. (Opcional) Crear una validación personalizada adicional, por ejemplo:
-   - `@CuitUnico` para validar que no existan dos empresas con el mismo CUIT.
-
-5. Probar todas las validaciones desde el `main()` del proyecto, mostrando errores si existen.
+### 🧠 ¿Por qué usamos DTOs?
+- Seguridad: evitamos exponer campos sensibles.
+- Eficiencia: sólo enviamos los datos necesarios.
+- Organización: mantenemos separadas las capas de la aplicación.
 
 ---
 
-📆 **Mostrar funcionando al inicio de la próxima clase.**
+### 🔁 Uso de **ModelMapper**
+- Agregado en el proyecto como dependencia Maven.
+- Configurado como `@Bean` global (`ModelMapperConfig.java`).
+- Uso en `ProductoService` para mapear de `Producto` a `ProductoDTO`.
+
+

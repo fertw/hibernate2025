@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
+import hibernate.curso.dto.ProductoDTO;
 import hibernate.curso.modelo.Categoria;
 import hibernate.curso.modelo.Empresa;
 import hibernate.curso.modelo.Producto;
@@ -36,6 +37,10 @@ public class DemoApplication {
 		ProductoService productoService = context.getBean(ProductoService.class);
 		
 		Validator validator = context.getBean(Validator.class);
+		
+		ProductoDTO dto = productoService.obtenerProductoDTO(1L);
+		System.out.println("Nombre del producto: " + dto.getNombre());
+		System.out.println("Precio del producto: " + dto.getPrecio());
 		
 		
 		
