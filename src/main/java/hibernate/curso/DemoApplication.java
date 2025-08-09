@@ -79,8 +79,12 @@ public class DemoApplication {
 		Empresa nuevaEmpresa = new Empresa();
 		nuevaEmpresa.setNombre("Tech Patagonia11XXXX");
 		empresaService.guardar(nuevaEmpresa);
+		
+		EmpresaDTO nuevaEmpresaDTO = empresaService.buscarEmpresaPorId(2L);
 //
 //		System.out.println("Empresa guardada con éxito.");
+		
+		
 //		
 		Categoria categoria1 = new Categoria("Electronics");
 //		Categoria categoria2 = new Categoria("Mobile Devices");

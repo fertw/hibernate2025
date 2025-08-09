@@ -1,20 +1,22 @@
 package hibernate.curso.repository;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import hibernate.curso.modelo.Empresa;
 
 public interface EmpresaRepository extends JpaRepository<Empresa, Long> {
-	
-	// Métodos personalizados para consultas específicas
-	// Por ejemplo, encontrar empresas por nombre
-	List<Empresa> findByNombre(String nombre);
-	Optional<Empresa> findByCuit(String cuit);
-	
-	// Otros métodos según sea necesario
 
-	
-}
+	  @Query("""
+	         select e
+	         from Empresa e
+	         left join fetch e.productos p
+	         left join fetch p.categoria
+	         where e.id = :id
+	         """)
+	  Optional<Empresa> findByIdConProductosYCategorias(@Param("id") Long id);
+	}
+

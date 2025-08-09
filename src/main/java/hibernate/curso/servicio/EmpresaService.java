@@ -12,33 +12,21 @@ import jakarta.transaction.Transactional;
 @Service
 public class EmpresaService {
 
+	@Autowired
+	private EmpresaRepository empresaRepository;
 
-   @Autowired
-   private EmpresaRepository empresaRepository;
-   
 	@Autowired
 	private ModelMapper modelMapper;
 
-    @Transactional
-    public void guardar(Empresa empresa) {
-		empresaRepository.save(empresa);       
-    }
- 
-    
-    public Empresa buscarPorCuit(String cuit) {
-		return empresaRepository.findByCuit(cuit).stream().findFirst().orElse(null);
+	@Transactional
+	public void guardar(Empresa empresa) {
+		empresaRepository.save(empresa);
 	}
-	
-    
-    
+
 	public EmpresaDTO buscarEmpresaPorId(Long id) {
-		Empresa empresa = empresaRepository.findById(id).orElse(null);
-		if (empresa != null) {
-			return modelMapper.map(empresa, EmpresaDTO.class);
-		}
-		return null;
+		Empresa e = empresaRepository.findByIdConProductosYCategorias(id)
+				.orElseThrow(() -> new IllegalArgumentException("Empresa no encontrada: " + id));
+		return modelMapper.map(e, EmpresaDTO.class);
 	}
-    
-    
-   
+
 }
