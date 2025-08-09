@@ -42,6 +42,7 @@ public class DemoApplication {
 		// crear una empresa
 		Empresa empresa = new Empresa();
 		empresa.setNombre("Tech Patagonia");
+		empresa.setCuit("20-12345678-9");
 		empresaService.guardar(empresa);
 		
 		EmpresaDTO empresaDTO = empresaService.buscarEmpresaPorId(1L);
@@ -80,9 +81,11 @@ public class DemoApplication {
 		nuevaEmpresa.setNombre("Tech Patagonia11XXXX");
 		empresaService.guardar(nuevaEmpresa);
 		
-		EmpresaDTO nuevaEmpresaDTO = empresaService.buscarEmpresaPorId(2L);
-//
-//		System.out.println("Empresa guardada con éxito.");
+		EmpresaDTO nuevaEmpresaDTO = empresaService.buscarPorId(2L);
+		System.out.println("Nombre de la nueva empresa: " + nuevaEmpresaDTO.getNombre());
+		System.out.println("CUIT de la nueva empresa: " + nuevaEmpresaDTO.getCuit());
+		
+		
 		
 		
 //		
