@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
+import hibernate.curso.dto.EmpresaDTO;
 import hibernate.curso.dto.ProductoDTO;
 import hibernate.curso.modelo.Categoria;
 import hibernate.curso.modelo.Empresa;
@@ -37,6 +38,37 @@ public class DemoApplication {
 		ProductoService productoService = context.getBean(ProductoService.class);
 		
 		Validator validator = context.getBean(Validator.class);
+		
+		// crear una empresa
+		Empresa empresa = new Empresa();
+		empresa.setNombre("Tech Patagonia");
+		empresaService.guardar(empresa);
+		
+		EmpresaDTO empresaDTO = empresaService.buscarEmpresaPorId(1L);
+		System.out.println("Nombre de la empresa: " + empresaDTO.getNombre());
+		System.out.println("CUIT de la empresa: " + empresaDTO.getCuit());
+		
+		// Creame 4 pruductos
+		Producto producto1 = new Producto();
+		producto1.setNombre("Monitor Samsung");
+		producto1.setPrecio(1500.0);
+		producto1.setStock(10);
+		producto1.setCodigo("MON-SAM-001");
+		producto1.setEmpresa(empresa);
+		
+		Categoria categoria = new Categoria("Electronics");
+		producto1.setCategoria(categoria);
+		Set<ConstraintViolation<Producto>> errores = validator.validate(producto1);
+		if (errores.isEmpty()) {
+			productoService.guardar(producto1);
+			System.out.println("Producto guardado con éxito.");
+		} else {
+			for (ConstraintViolation<Producto> error : errores) {
+				System.out.println(error.getMessage());
+			}
+		}
+		
+		
 		
 		ProductoDTO dto = productoService.obtenerProductoDTO(1L);
 		System.out.println("Nombre del producto: " + dto.getNombre());
@@ -71,7 +103,6 @@ public class DemoApplication {
 		p1.setCodigo("MON-SAM-008");
 		p1.setEmpresa(nuevaEmpresa);
 		p1.setCategoria(categoria1);
-		Set<ConstraintViolation<Producto>> errores = validator.validate(p1);
 		
 		if (errores.isEmpty()) {
 			productoService.guardar(p1);
