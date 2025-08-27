@@ -1,8 +1,10 @@
 package hibernate.curso.modelo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -18,8 +20,8 @@ public class Categoria {
 	private String nombre;
 	
 	
-	@OneToMany(mappedBy = "categoria")
-	private List<Producto> productos;
+    @OneToMany(mappedBy = "categoria", fetch = FetchType.LAZY)
+    private List<Producto> productos = new ArrayList<>();
 	
 	public Categoria() {}
 	

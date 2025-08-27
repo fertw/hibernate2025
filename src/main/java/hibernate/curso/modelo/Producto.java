@@ -17,11 +17,10 @@ public class Producto {
     @JoinColumn(name = "empresa_id")
     private Empresa empresa;
     
- // El cascade PERSIST asegura que si la categoría no existe en la base de datos,
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "categoria_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "categoria_id", nullable = false)
     private Categoria categoria;
-
+    
     // Getters y Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }

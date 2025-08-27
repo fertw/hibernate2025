@@ -1,33 +1,26 @@
 package hibernate.curso.servicio;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import hibernate.curso.modelo.Empresa;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
+import hibernate.curso.repository.EmpresaRepository;
 import jakarta.transaction.Transactional;
 
 @Service
 public class EmpresaService {
 
-    @PersistenceContext
-    private EntityManager em;
+	@Autowired
+	private EmpresaRepository empresaRepository;
 
-    @Transactional
-    public void guardar(String nombre, String cuit) {
-        Empresa empresa = new Empresa(nombre, cuit);
-        em.persist(empresa);
-    }
- 
-    
-    public Empresa buscarPorId(Long id) {
-		return em.find(Empresa.class, id);
-	}
-    
-    @Transactional
+	@Transactional
 	public void guardar(Empresa empresa) {
-    	em.persist(empresa);		
+		empresaRepository.save(empresa);
 	}
-    
-   
+	
+	public Empresa buscarPorId(Long id) {
+		return empresaRepository.findById(id).orElse(null);
+	}
+	
+
 }
