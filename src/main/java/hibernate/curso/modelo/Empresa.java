@@ -3,7 +3,10 @@ package hibernate.curso.modelo;
 import java.util.ArrayList;
 import java.util.List;
 
+import hibernate.curso.validators.CUIT;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Empresa {
@@ -12,7 +15,13 @@ public class Empresa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, length = 120)
+    @Size(min = 2, max = 120, message = "{empresa.nombre.size}")
+    @NotBlank(message = "{empresa.nombre.notblank}")
     private String nombre;
+    
+    @CUIT(message = "{empresa.cuit.invalido}")
+    @NotBlank(message = "{empresa.cuit.notblank}")
     private String cuit;
     
     @OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL, orphanRemoval = true)

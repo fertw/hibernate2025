@@ -12,8 +12,9 @@ public interface EmpleadoRepository extends JpaRepository<Empleado, Long> {
 	// Por ejemplo, encontrar empleados por nombre
 	List<Empleado> findByNombre(String nombre);
 	List<Empleado> findByApellido(String apellido);
-	List<Empleado> findByNombreAndApellido(String nombre, String apellido);	
+	List<Empleado> findByNombreAndApellido(String nombre, String apellido);
+	Empleado findByDni(String dni);
+	boolean existsByDni(String dni);
 	
-	// Otros métodos según sea necesario
 
 }

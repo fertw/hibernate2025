@@ -1,10 +1,15 @@
 package hibernate.curso.modelo;
 
-import org.hibernate.validator.constraints.NotBlank;
-
 import hibernate.curso.validators.CodigoUnico;
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -15,11 +20,13 @@ public class Producto {
 	private Long id;
 
 	@Size(min = 3, max = 50, message = "El nombre debe tener entre 3 y 50 caracteres")
+	@NotBlank(message = "El nombre no puede estar vacío")
+	@Size(min = 3, max = 50, message = "El nombre debe tener entre 3 y 50 caracteres")
 	private String nombre;
 
 	private Double precio;
 
-	@CodigoUnico
+	@CodigoUnico (message = "El código ya existe")
 	private String codigo;
 
 	@Min(value = 0, message = "El stock no puede ser negativo")

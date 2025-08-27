@@ -1,23 +1,36 @@
 package hibernate.curso.modelo;
 
+import hibernate.curso.validators.DNI;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Empleado {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
+	@NotBlank(message = "El nombre no puede estar vacío")
+	@Size(min = 2, max = 50, message = "El nombre debe tener entre 2 y 50 caracteres")
 	private String nombre;
+
+	@NotBlank(message = "El apellido no puede estar vacío")
+	@Size(min = 2, max = 50, message = "El apellido debe tener entre 2 y 50 caracteres")
 	private String apellido;
-	
+
+	@NotBlank(message = "El DNI no puede estar vacío")
+	@Size(min = 7, max = 10, message = "El DNI debe tener entre 7 y 10 caracteres")
+	@DNI(message = "El DNI es inválido")
+	private String dni;
 	@ManyToOne
 	private Empresa empresa;
-	
+
 	public Empleado() {
 		super();
 	}
@@ -53,7 +66,9 @@ public class Empleado {
 	public void setEmpresa(Empresa empresa) {
 		this.empresa = empresa;
 	}
-	
-	
+
+	public void setDni(String string) {
+		this.dni = string;
+	}
 
 }
